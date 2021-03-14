@@ -10,14 +10,20 @@ import { createSlice } from '@reduxjs/toolkit';
  */
 const createAsyncSlice = (config) => {
   const slice = createSlice({
+    ...config,
     name: config.name,
     initialState: {
+      error: null,
       loading: false,
       data: null,
-      error: null,
+      page: null,
+      limit: null,
       ...config.initialState,
     },
     reducers: {
+      fetchFinished(state) {
+        state.loading = false;
+      },
       fetchStarted(state) {
         state.loading = true;
       },
@@ -69,7 +75,9 @@ const createAsyncSlice = (config) => {
     }
   };
 
-  return { ...slice, asyncAction };
+  const firebaseAction = (payload) => async (dispatch) => {};
+
+  return { ...slice, asyncAction, firebaseAction };
 };
 
 export default createAsyncSlice;
